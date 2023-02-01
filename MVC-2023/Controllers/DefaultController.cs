@@ -15,9 +15,6 @@ namespace MVC_2023.Controllers
 
         // }
 
-
-
-
         //   public ActionResult DownloadImage()
         //{
         //    var filePath = Server.MapPath("~/img/el-salvador.png");
@@ -26,7 +23,7 @@ namespace MVC_2023.Controllers
 
         public string Index() {
 
-            return ("<a download  href='../img/el-salvador.png'><img src='../img/el-salvador.png'/></a>");
+            return ("<a download style=\"width :50px\" href='../img/el-salvador.png'><img src='../img/el-salvador.png'/></a>");
         }
         public string About()
         {

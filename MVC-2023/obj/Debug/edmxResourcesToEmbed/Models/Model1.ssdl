@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Citys">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="city" Type="varchar" MaxLength="25" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customers1">
+    <Key>
+      <PropertyRef Name="Customer_id" />
+    </Key>
+    <Property Name="Customer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Customer_name" Type="varchar" MaxLength="100" />
+    <Property Name="Age" Type="int" />
+    <Property Name="City_id" Type="int" />
+    <Property Name="Phone" Type="int" />
+    <Property Name="Email" Type="varchar" MaxLength="200" />
+    <Property Name="Photo" Type="varchar" MaxLength="8000" />
+  </EntityType>
+  <Association Name="FK__Customers__City___398D8EEE">
+    <End Role="Citys" Type="Self.Citys" Multiplicity="0..1" />
+    <End Role="Customers1" Type="Self.Customers1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Citys">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Customers1">
+        <PropertyRef Name="City_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="Citys" EntityType="Self.Citys" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customers1" EntityType="Self.Customers1" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Customers__City___398D8EEE" Association="Self.FK__Customers__City___398D8EEE">
+      <End Role="Citys" EntitySet="Citys" />
+      <End Role="Customers1" EntitySet="Customers1" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

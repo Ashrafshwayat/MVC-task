@@ -1,0 +1,28 @@
+﻿@*@Model MVC_2023.Models.Customer
+    <table class="table table-bordered">
+        <tr>
+            <td>Customer ID</td>
+            <td>@Model.Id</td>
+        </tr>
+        <tr>
+            <td>Customer Name  </td>
+            <td>@Model.Name</td>
+        </tr>
+        <tr>
+            <td>Customer Address </td>
+            <td>@Model.Address</td>
+
+        </tr>
+        <tr>
+            <td>Customer Age  </td>
+            <td>@Model.Age</td>
+
+        </tr>
+    </table>*@
+
+@foreach (string country in ViewBag.c)
+
+{
+    <li>@country</li>
+}
+hi @Session["username"]

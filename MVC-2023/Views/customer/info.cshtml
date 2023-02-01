@@ -1,0 +1,12 @@
+﻿@model List<MVC_2023.Models.City>
+@{
+    ViewBag.Title = "info";
+}
+
+<h2>info</h2>
+@foreach (var item in Model)
+            {
+                <p>@item.city1</p>
+                <p>@item.id</p>
+            }
+

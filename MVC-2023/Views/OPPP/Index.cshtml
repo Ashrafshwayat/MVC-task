@@ -1,0 +1,12 @@
+﻿@model MVC_2023.Models.Customer
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@foreach(var cus in ViewBag.O)
+            {
+                @cus.Id
+            }
+
