@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="task3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="task3Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Employees" EntityType="task3Model.Employee" />
+    <EntitySet Name="orders" EntityType="task3Model.order" />
+    <AssociationSet Name="FK_order_Employee" Association="task3Model.FK_order_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="order" EntitySet="orders" />
+    </AssociationSet>
+  </EntityContainer>
   <EntityType Name="Employee">
     <Key>
       <PropertyRef Name="id" />
@@ -12,8 +20,29 @@
     <Property Name="Age" Type="Int32" />
     <Property Name="Job_Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Gender" Type="Boolean" />
+    <Property Name="imge" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CV" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="orders" Relationship="task3Model.FK_order_Employee" FromRole="Employee" ToRole="order" />
   </EntityType>
-  <EntityContainer Name="task3Entities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Employees" EntityType="Self.Employee" />
-  </EntityContainer>
+  <EntityType Name="order">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="OrderDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Employee" Relationship="task3Model.FK_order_Employee" FromRole="order" ToRole="Employee" />
+  </EntityType>
+  <Association Name="FK_order_Employee">
+    <End Type="task3Model.Employee" Role="Employee" Multiplicity="0..1" />
+    <End Type="task3Model.order" Role="order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="order">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

@@ -12,8 +12,35 @@
     <Property Name="Age" Type="int" />
     <Property Name="Job_Title" Type="varchar" MaxLength="50" />
     <Property Name="Gender" Type="bit" />
+    <Property Name="imge" Type="text" />
+    <Property Name="CV" Type="text" />
   </EntityType>
+  <EntityType Name="order">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="int" Nullable="false" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="OrderDate" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_order_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="order" Type="Self.order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="order">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="task3ModelStoreContainer">
     <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_order_Employee" Association="Self.FK_order_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="order" EntitySet="order" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

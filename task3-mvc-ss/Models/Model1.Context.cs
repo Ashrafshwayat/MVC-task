@@ -26,5 +26,6 @@ namespace task3_mvc_ss.Models
         }
     
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<order> orders { get; set; }
     }
 }

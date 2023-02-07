@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -15,10 +16,30 @@ namespace task3_mvc_ss.Controllers
         private task3Entities db = new task3Entities();
 
         // GET: Employees
-        public ActionResult Index()
+        public ActionResult Index(string searchBy, string search)
         {
-            return View(db.Employees.ToList());
+          if(searchBy== "First Name")
+            {
+                var result = db.Employees.Where(x=>x.First_Name.Contains(search) || search==null).ToList(); 
+                return View(result);
+            }
+            else
+            {
+               return View(db.Employees.Where(x => x.Last_name.Contains(search) || search == null).ToList());
+            }
         }
+
+        //public ActionResult Order()
+        //{
+        //    return View();
+        //}
+
+        public PartialViewResult _Order()
+        {
+            var d = db.orders.OrderByDescending(c => c.OrderDate).FirstOrDefault();
+            return PartialView("_Order", d);
+        }
+
 
         // GET: Employees/Details/5
         public ActionResult Details(int? id)
@@ -46,10 +67,25 @@ namespace task3_mvc_ss.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,First_Name,Last_name,E_mail,Phone,Age,Job_Title,Gender")] Employee employee)
+        public ActionResult Create([Bind(Include = "id,First_Name,Last_name,E_mail,Phone,Age,Job_Title,Gender,imge,CV")] Employee employee, HttpPostedFileBase imge, HttpPostedFileBase CV)
         {
             if (ModelState.IsValid)
             {
+                if (imge != null && imge.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(imge.FileName);
+                    var path = Path.Combine(Server.MapPath("~/images"), fileName);
+                    imge.SaveAs(path);
+                    employee.imge = fileName;
+                }
+                if (CV != null && CV.ContentLength > 0)
+                {
+                    var fileName = CV.FileName;
+                    var path = Path.Combine(Server.MapPath("~/CV"), fileName);
+                    CV.SaveAs(path);
+                    employee.CV = fileName;
+                }
+
                 db.Employees.Add(employee);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -78,7 +114,7 @@ namespace task3_mvc_ss.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,First_Name,Last_name,E_mail,Phone,Age,Job_Title,Gender")] Employee employee)
+        public ActionResult Edit([Bind(Include = "id,First_Name,Last_name,E_mail,Phone,Age,Job_Title,Gender,imge,CV")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -123,5 +159,6 @@ namespace task3_mvc_ss.Controllers
             }
             base.Dispose(disposing);
         }
+       
     }
 }

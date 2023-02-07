@@ -15,31 +15,52 @@ namespace task3_mvc_ss.Models
 
     public partial class Employee
     {
-      
 
+        [Required]
         public int id { get; set; }
-        [Required(ErrorMessage = "*")]
+        [Required(ErrorMessage ="*")]
 
         [StringLength(12)]
-        [Display(Name = "FirstName")]
+        [Display(Name = "First Name")]
 
         public string First_Name { get; set; }
-        [Required(ErrorMessage = "*")]
+        [Required]
         [StringLength(12)]
-        [Display(Name = "LastName ")]
+        [Display]
         public string Last_name { get; set; }
         [EmailAddress]
-        [Required(ErrorMessage = "*")]
+        [Required]
         [Display(Name = "Email")]
         public string E_mail { get; set; }
-        //[RegularExpression(@"^(?[0]{1}?[7]{1}?([7-9]{1}))?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
+        [RegularExpression("((079)|(078)|(077)){1}[0-9]{7}", ErrorMessage = "Number must be Joirdanian")]
         public string Phone { get; set; }
         [Range(18,50)]
         public Nullable<int> Age { get; set; }
         [MaxLength(10)]
-        [Required(ErrorMessage = "*")]
+        [Required]
         [Display(Name = "JobTitle ")]
         public string Job_Title { get; set; }
+        [Required]
+        public string imge { get; set; }
+        [Required]
+        public string CV { get; set; }
         public Nullable<bool> Gender { get; set; }
+        public string GenderDisplay
+        {
+            get
+            {
+                if (Gender == null)
+                {
+                    return "Not specified";
+                }
+                else
+                {
+                    return Gender == true ? "Male" : "Female";
+                }
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<order> orders { get; set; }
     }
 }
